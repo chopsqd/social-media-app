@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {doc, getDoc, setDoc} from "firebase/firestore";
 import isUsernameExist from "../utils/isUsernameExist";
-import {useAlert} from "../utils/showAlert";
+import {useAlert} from "./alert";
 
 export function useAuth() {
     const [authUser, authLoading, error] = useAuthState(auth)

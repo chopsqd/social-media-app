@@ -1,15 +1,15 @@
 import React from 'react';
 import {useForm} from "react-hook-form"
 import {
-    Link,
-    Center,
     Box,
-    Heading,
-    FormControl,
-    FormLabel,
-    Input,
-    FormErrorMessage,
     Button,
+    Center,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Heading,
+    Input,
+    Link,
     Text
 } from '@chakra-ui/react';
 import {Link as RouterLink} from "react-router-dom";

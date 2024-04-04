@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button, Code, Spinner, Stack} from "@chakra-ui/react";
 import {Link} from "react-router-dom";
-import {useAuth} from "../hooks/auth";
-import ProfileAvatar from "../components/profile/ProfileAvatar";
+import {useAuth} from "../../hooks/auth";
+import ProfileAvatar from "../profile/ProfileAvatar";
 
 const ActiveUser = () => {
     const {user, isLoading} = useAuth()
