@@ -2,16 +2,20 @@ import React from 'react';
 import {Flex, IconButton, Progress} from "@chakra-ui/react";
 import {FaRegHeart, FaHeart, FaComment, FaRegComment, FaTrash} from "react-icons/fa";
 import {useAuth} from "../../hooks/auth";
-import {useToggleLike} from "../../hooks/post";
+import {useToggleLike, useDeletePost} from "../../hooks/post";
 import {Link} from "react-router-dom";
+import {useComments} from "../../hooks/comments";
 
 const Actions = ({post}) => {
     const {id, likes} = post
+    const {comments, isLoading: commentsLoading} = useComments(id)
     const {user, isLoading: userLoading} = useAuth()
 
     const isLiked = likes.includes(user?.id)
+    const isCommented = comments?.some(obj => obj.uid === user?.id)
 
     const {toggleLike, isLoading: likeLoading} = useToggleLike({id, isLiked, uid: user?.id})
+    const {deletePost, isLoading: deleteLoading} = useDeletePost(id)
 
     if (userLoading) return <Progress size='xs' isIndeterminate/>
 
@@ -36,15 +40,16 @@ const Actions = ({post}) => {
                     size="md"
                     colorScheme="teal"
                     variant="ghost"
-                    // icon={isLiked ? <FaComment /> : <FaRegComment/>}
+                    icon={isCommented ? <FaComment /> : <FaRegComment/>}
                     isRound
                 />
-                n
+                {isCommented ? <b>{comments.length}</b> : comments.length}
             </Flex>
 
             <IconButton
                 ml="auto"
-                // onClick={deletePost}
+                onClick={deletePost}
+                isLoading={deleteLoading}
                 size="md"
                 colorScheme="red"
                 variant="ghost"

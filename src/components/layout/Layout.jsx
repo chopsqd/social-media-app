@@ -6,8 +6,8 @@ import {Box, Flex, Progress} from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
 
 const Layout = () => {
-    const {pathname} = useLocation()
     const navigate = useNavigate()
+    const {pathname} = useLocation()
     const {user, isLoading} = useAuth()
 
     useEffect(() => {

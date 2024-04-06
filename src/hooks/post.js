@@ -3,7 +3,7 @@ import {uuidv4} from "@firebase/util";
 import {collection, doc, query, setDoc, orderBy, updateDoc, arrayRemove, arrayUnion} from "firebase/firestore";
 import {db} from "../lib/firebase";
 import {useAlert} from "./alert";
-import {useCollectionData} from "react-firebase-hooks/firestore";
+import {useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
 
 export function useAddPost() {
     const {showAlert} = useAlert()
@@ -47,4 +47,21 @@ export function useToggleLike({id, isLiked, uid}) {
     }
 
     return {toggleLike, isLoading}
+}
+
+export function useDeletePost(id) {
+    const [isLoading, setLoading] = useState(false)
+
+    async function deletePost() {
+
+    }
+
+    return {deletePost, isLoading}
+}
+
+export function usePostById(id) {
+    const q = doc(db, "posts", id)
+    const [post, isLoading] = useDocumentData(q)
+
+    return {post, isLoading}
 }

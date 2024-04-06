@@ -3,7 +3,7 @@ import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 import Layout from "../components/layout/Layout";
 import Dashboard from "../components/dashboard/Dashboard";
-import Comments from "../components/post/Comments";
+import Comments from "../components/comments/Comments";
 
 export const router = createBrowserRouter([
     {
