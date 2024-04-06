@@ -7,15 +7,15 @@ import {useCollectionData} from "react-firebase-hooks/firestore";
 
 export function useAddComment(postID, uid) {
     const {showAlert} = useAlert()
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     async function addComment(text) {
-        setLoading(true)
+        setIsLoading(true)
         const id = uuidv4()
         const docRef = doc(db, "comments", id)
         await setDoc(docRef, {text, id, postID, uid, date: Date.now()})
         showAlert("Comment added successfully!", "success")
-        setLoading(false)
+        setIsLoading(false)
     }
 
     return {addComment, isLoading}
@@ -35,17 +35,17 @@ export function useComments(postID) {
 
 export function useDeleteComment(id) {
     const {showAlert} = useAlert()
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     async function deleteComment() {
         const res = window.confirm("Are you sure you want to delete this comment?")
 
         if (res) {
-            setLoading(true)
+            setIsLoading(true)
             const docRef = doc(db, "comments", id)
             await deleteDoc(docRef)
             showAlert("Comment deleted successfully!", "info")
-            setLoading(false)
+            setIsLoading(false)
         }
     }
 

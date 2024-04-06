@@ -1,16 +1,16 @@
 import {useState} from "react";
 import {uuidv4} from "@firebase/util";
-import {collection, doc, query, setDoc, orderBy, updateDoc, arrayRemove, arrayUnion} from "firebase/firestore";
+import {collection, doc, query, setDoc, orderBy, updateDoc, arrayRemove, arrayUnion, where} from "firebase/firestore";
 import {db} from "../lib/firebase";
 import {useAlert} from "./alert";
 import {useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
 
 export function useAddPost() {
     const {showAlert} = useAlert()
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     async function addPost(post) {
-        setLoading(true)
+        setIsLoading(true)
         const id = uuidv4()
         await setDoc(doc(db, "posts", id), {
             ...post,
@@ -19,14 +19,24 @@ export function useAddPost() {
             likes: []
         })
         showAlert("Post added successfully!", "success")
-        setLoading(false)
+        setIsLoading(false)
     }
 
     return {addPost, isLoading}
 }
 
-export function usePosts() {
-    const q = query(collection(db, "posts"), orderBy("date", "desc"))
+export function usePosts(uid = null) {
+    const q = uid
+        ? query(
+            collection(db, "posts"),
+            orderBy("date", "desc"),
+            where("uid", "==", uid)
+        )
+        : query(
+            collection(db, "posts"),
+            orderBy("date", "desc")
+        )
+
     const [posts, isLoading, error] = useCollectionData(q)
 
     if(error) throw error
@@ -35,22 +45,22 @@ export function usePosts() {
 }
 
 export function useToggleLike({id, isLiked, uid}) {
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     async function toggleLike() {
-        setLoading(true)
+        setIsLoading(true)
         const docRef = doc(db, "posts", id)
         await updateDoc(docRef, {
             likes: isLiked ? arrayRemove(uid) : arrayUnion(uid)
         })
-        setLoading(false)
+        setIsLoading(false)
     }
 
     return {toggleLike, isLoading}
 }
 
 export function useDeletePost(id) {
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     async function deletePost() {
 

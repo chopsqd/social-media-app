@@ -9,21 +9,21 @@ import {useAlert} from "./alert";
 
 export function useAuth() {
     const [authUser, authLoading, error] = useAuthState(auth)
-    const [isLoading, setLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true)
     const [user, setUser] = useState(null)
 
     useEffect(() => {
         async function fetchData() {
-            setLoading(true)
+            setIsLoading(true)
             const ref = doc(db, "users", authUser.uid)
             const docSnap = await getDoc(ref)
             setUser(docSnap.data())
-            setLoading(false)
+            setIsLoading(false)
         }
 
         if (!authLoading) {
             if (authUser) fetchData()
-            else setLoading(false)
+            else setIsLoading(false)
         }
     }, [authLoading])
 

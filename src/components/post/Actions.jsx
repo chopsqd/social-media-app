@@ -17,7 +17,7 @@ const Actions = ({post}) => {
     const {toggleLike, isLoading: likeLoading} = useToggleLike({id, isLiked, uid: user?.id})
     const {deletePost, isLoading: deleteLoading} = useDeletePost(id)
 
-    if (userLoading) return <Progress size='xs' isIndeterminate/>
+    if (userLoading || commentsLoading) return <Progress size='xs' isIndeterminate/>
 
     return (
         <Flex p="2">
@@ -43,7 +43,7 @@ const Actions = ({post}) => {
                     icon={isCommented ? <FaComment /> : <FaRegComment/>}
                     isRound
                 />
-                {isCommented ? <b>{comments.length}</b> : comments.length}
+                {isCommented ? <b>{comments?.length}</b> : comments?.length}
             </Flex>
 
             <IconButton

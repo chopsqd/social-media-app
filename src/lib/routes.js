@@ -4,11 +4,13 @@ import Register from "../components/auth/Register";
 import Layout from "../components/layout/Layout";
 import Dashboard from "../components/dashboard/Dashboard";
 import Comments from "../components/comments/Comments";
+import Profile from "../components/profile/Profile";
+import Home from "../components/layout/Home";
 
 export const router = createBrowserRouter([
     {
         path: "",
-        element: "Welcome to the CUM Zone"
+        element: <Home/>
     },
     {
         path: "login",
@@ -24,8 +26,12 @@ export const router = createBrowserRouter([
         children: [
             {path: 'dashboard', element: <Dashboard/>},
             {path: 'users', element: 'users'},
-            {path: 'profile/:id', element: 'Profile'},
+            {path: 'profile/:id', element: <Profile/>},
             {path: 'comments/:id', element: <Comments/>},
         ]
     },
+    {
+        path: "*",
+        element: <Login/>
+    }
 ])

@@ -7,7 +7,9 @@ const PostsList = ({posts}) => {
         <Box px="4" align="center">
             {!posts.length
                 ? <Text textAlign="center" fontSize="xl">No posts yet...</Text>
-                : posts.map(post => <Post key={post.id} post={post}/>)
+                : posts.map(post =>
+                    <Post key={post.id} post={post}/>
+                )
             }
         </Box>
     )
