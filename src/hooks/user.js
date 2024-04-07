@@ -1,5 +1,5 @@
-import {useDocumentData} from "react-firebase-hooks/firestore";
-import {doc, query, updateDoc} from "firebase/firestore";
+import {useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
+import {collection, doc, query, updateDoc} from "firebase/firestore";
 import {uploadBytes, ref, getDownloadURL} from "firebase/storage";
 import {db, storage} from "../lib/firebase";
 import {useState} from "react";
@@ -45,4 +45,9 @@ export function useUpdateAvatar(uid) {
         isLoading,
         fileURL: file && URL.createObjectURL(file)
     }
+}
+
+export function useAllUsers() {
+    const [users, isLoading] = useCollectionData(collection(db, "users"))
+    return {users, isLoading}
 }

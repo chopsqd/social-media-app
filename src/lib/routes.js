@@ -6,6 +6,7 @@ import Dashboard from "../components/dashboard/Dashboard";
 import Comments from "../components/comments/Comments";
 import Profile from "../components/profile/Profile";
 import Home from "../components/layout/Home";
+import Users from "../components/users/Users";
 
 export const router = createBrowserRouter([
     {
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
         element: <Layout/>,
         children: [
             {path: 'dashboard', element: <Dashboard/>},
-            {path: 'users', element: 'users'},
+            {path: 'users', element: <Users/>},
             {path: 'profile/:id', element: <Profile/>},
             {path: 'comments/:id', element: <Comments/>},
         ]
