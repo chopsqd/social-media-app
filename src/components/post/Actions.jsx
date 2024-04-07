@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import {useComments} from "../../hooks/comments";
 
 const Actions = ({post}) => {
-    const {id, likes} = post
+    const {id, likes, uid} = post
     const {comments, isLoading: commentsLoading} = useComments(id)
     const {user, isLoading: userLoading} = useAuth()
 
@@ -46,16 +46,18 @@ const Actions = ({post}) => {
                 {isCommented ? <b>{comments?.length}</b> : comments?.length}
             </Flex>
 
-            <IconButton
-                ml="auto"
-                onClick={deletePost}
-                isLoading={deleteLoading}
-                size="md"
-                colorScheme="red"
-                variant="ghost"
-                icon={<FaTrash />}
-                isRound
-            />
+            {!userLoading && user.id === uid && (
+                <IconButton
+                    ml="auto"
+                    onClick={deletePost}
+                    isLoading={deleteLoading}
+                    size="md"
+                    colorScheme="red"
+                    variant="ghost"
+                    icon={<FaTrash/>}
+                    isRound
+                />
+            )}
         </Flex>
     );
 };

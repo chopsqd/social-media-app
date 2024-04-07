@@ -1,6 +1,18 @@
 import {useState} from "react";
 import {uuidv4} from "@firebase/util";
-import {collection, doc, query, setDoc, orderBy, updateDoc, arrayRemove, arrayUnion, where} from "firebase/firestore";
+import {
+    collection,
+    doc,
+    query,
+    setDoc,
+    orderBy,
+    updateDoc,
+    arrayRemove,
+    arrayUnion,
+    where,
+    deleteDoc,
+    getDocs
+} from "firebase/firestore";
 import {db} from "../lib/firebase";
 import {useAlert} from "./alert";
 import {useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
@@ -39,7 +51,7 @@ export function usePosts(uid = null) {
 
     const [posts, isLoading, error] = useCollectionData(q)
 
-    if(error) throw error
+    if (error) throw error
 
     return {posts, isLoading}
 }
@@ -60,10 +72,29 @@ export function useToggleLike({id, isLiked, uid}) {
 }
 
 export function useDeletePost(id) {
+    const {showAlert} = useAlert()
     const [isLoading, setIsLoading] = useState(false)
 
     async function deletePost() {
+        const res = window.confirm("Are you sure you want to delete this post?");
 
+        if (res) {
+            setIsLoading(true)
+
+            // Delete post document
+            await deleteDoc(db, "posts", id)
+
+            // Delete comments
+            const q = query(
+                collection(db, "comments"),
+                where("postID", "==", id)
+            )
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach(doc => deleteDoc(doc.ref))
+
+            showAlert("Post deleted!", "info")
+            setIsLoading(false)
+        }
     }
 
     return {deletePost, isLoading}
